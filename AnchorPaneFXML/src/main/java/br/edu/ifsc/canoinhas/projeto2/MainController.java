@@ -1,9 +1,16 @@
 package br.edu.ifsc.canoinhas.projeto2;
 
+import java.io.IOException;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 public class MainController {
 
@@ -25,24 +32,17 @@ public class MainController {
 	@FXML
 	Label lblConteudo;
 
-	public void tratarPrimeiro() {
-		tratarClique(btnPrimeiro);
+	public void tratarClique(ActionEvent e) throws IOException {
+		Button botaoClicado = (Button) e.getSource();
+		tratarClique(botaoClicado);
+		Stage stage = new Stage();
+		stage.setScene(new Scene(loadFXML("settings")));
+		stage.show();
 	}
 
-	public void tratarSegundo() {
-		tratarClique(btnSegundo);
-	}
-
-	public void tratarTerceiro() {
-		tratarClique(btnTerceiro);
-	}
-
-	public void tratarQuarto() {
-		tratarClique(btnQuarto);
-	}
-
-	public void tratarQuinto() {
-		tratarClique(btnQuinto);
+	private static Parent loadFXML(String fxml) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+		return fxmlLoader.load();
 	}
 
 	private void tratarClique(Button botao) {
