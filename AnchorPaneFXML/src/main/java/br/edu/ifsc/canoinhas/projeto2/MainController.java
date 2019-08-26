@@ -36,13 +36,12 @@ public class MainController {
 		Button botaoClicado = (Button) e.getSource();
 		tratarClique(botaoClicado);
 		Stage stage = new Stage();
-		stage.setScene(new Scene(loadFXML("settings")));
+		FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("settings.fxml"));
+		Parent root = (Parent) fxmlLoader.load();
+		stage.setScene(new Scene(root));
+		SettingsController controller = fxmlLoader.getController();
+		controller.setParametro(2);
 		stage.show();
-	}
-
-	private static Parent loadFXML(String fxml) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-		return fxmlLoader.load();
 	}
 
 	private void tratarClique(Button botao) {
