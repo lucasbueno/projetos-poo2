@@ -28,3 +28,7 @@ target/
 .settings/
 
 .classpath
+
+*.sqlite
+
+*.db
