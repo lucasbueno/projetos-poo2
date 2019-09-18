@@ -9,6 +9,8 @@
         </description>
 
 		<class>com.lucasbueno.orm.model.Folder</class>
+		<class>com.lucasbueno.orm.model.File</class>
+		<class>com.lucasbueno.orm.model.User</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC" />
