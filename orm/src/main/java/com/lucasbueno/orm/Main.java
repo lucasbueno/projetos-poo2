@@ -11,25 +11,22 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Connection.getEntityManagerFactory();
-
+		// crio as entidades
 		User user = new User("Lucas");
 		File file = new File("nao-abra.txt");
 		Folder folder = new Folder("pasta-oculta");
 		file.shareWith(user);
 		folder.addFile(file);
 
-		// adiciono um arquivo
-
-		EntityManager entityManager = Connection.getEntityManager();
-		entityManager.getTransaction().begin();
-		entityManager.persist(user);
-		entityManager.persist(file);
-		entityManager.persist(folder);
-		entityManager.getTransaction().commit();
-		entityManager.close();
+		// as salvo no banco
+		EntityManager em = Connection.getEntityManager();
+		em.getTransaction().begin();
+		em.persist(user);
+		em.persist(file);
+		em.persist(folder);
+		em.getTransaction().commit();
+		em.close();
 
 		Connection.closeConn();
-
 	}
 }
