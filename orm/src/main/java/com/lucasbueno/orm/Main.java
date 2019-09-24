@@ -1,8 +1,6 @@
 package com.lucasbueno.orm;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 import com.lucasbueno.orm.database.Connection;
 import com.lucasbueno.orm.model.File;
@@ -12,8 +10,8 @@ import com.lucasbueno.orm.model.User;
 public class Main {
 
 	public static void main(String[] args) {
-		
-		Connection.getConn();
+
+		Connection.getEntityManagerFactory();
 
 		User user = new User("Lucas");
 		File file = new File("nao-abra.txt");
@@ -23,7 +21,7 @@ public class Main {
 
 		// adiciono um arquivo
 
-		EntityManager entityManager = Connection.getConn().createEntityManager();
+		EntityManager entityManager = Connection.getEntityManager();
 		entityManager.getTransaction().begin();
 		entityManager.persist(user);
 		entityManager.persist(file);
