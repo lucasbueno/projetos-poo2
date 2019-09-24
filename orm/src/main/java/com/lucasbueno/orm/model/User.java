@@ -1,6 +1,8 @@
 package com.lucasbueno.orm.model;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,6 +27,7 @@ public class User {
 	public User(String nome) {
 		super();
 		this.name = nome;
+		this.dataCadastro = new GregorianCalendar(2019, Calendar.SEPTEMBER, 24).getTime();
 	}
 
 	public String getName() {
