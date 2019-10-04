@@ -1,5 +1,7 @@
 package com.lucasbueno.orm;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -15,6 +17,7 @@ public class Main {
 
 		// crio as entidades
 		User user = new User("Lucas");
+		user.setDataCadastro(new GregorianCalendar(2019, Calendar.AUGUST, 24).getTime());
 		User user3 = new User("Teste");
 		User user4 = new User("Oi");
 		File file = new File("nao-abra.txt");
