@@ -11,10 +11,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class ListController implements Initializable {
@@ -23,25 +21,13 @@ public class ListController implements Initializable {
 	private SplitPane splitPane;
 
 	@FXML
-	private TableView<User> table;
+	private ListView<User> listUser;
 
 	private boolean barBottom = true;
 
-	@FXML
-	private TableColumn<User, String> userName;
-
-	@FXML
-	private TableColumn<User, Integer> userAge;
-
-	@FXML
-	private TableColumn<User, String> userRegisterDate;
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		userName.setCellValueFactory(new PropertyValueFactory<>("name"));
-		userAge.setCellValueFactory(new PropertyValueFactory<>("age"));
-		userRegisterDate.setCellValueFactory(new PropertyValueFactory<>("registerDate"));
-		table.setItems(UserDAO.getUsers());
+		listUser.setItems(UserDAO.getUsers());
 	}
 
 	@FXML
@@ -64,6 +50,16 @@ public class ListController implements Initializable {
 			splitPane.setDividerPositions(0.8);
 		else
 			splitPane.setDividerPositions(0.2);
+	}
+
+	@FXML
+	private void update() {
+
+	}
+
+	@FXML
+	private void delete() {
+		UserDAO.delete(listUser.getSelectionModel().getSelectedItem());
 	}
 
 	@FXML

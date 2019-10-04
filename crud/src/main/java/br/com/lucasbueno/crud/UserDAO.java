@@ -26,4 +26,15 @@ public class UserDAO {
 		entityMng.close();
 		getUsers().add(user);
 	}
+
+	public static void delete(User user) {
+		EntityManager entityMng = Conn.getEntityManager();
+		entityMng.getTransaction().begin();
+		User userDB = entityMng.createQuery("select user from User as user where user.name = ?1", User.class)
+				.setParameter(1, user.getName()).getResultList().get(0);
+		entityMng.remove(userDB);
+		entityMng.getTransaction().commit();
+		entityMng.close();
+		getUsers().remove(user);
+	}
 }
