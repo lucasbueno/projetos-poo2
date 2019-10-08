@@ -21,25 +21,28 @@
                <children>
                   <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <AnchorPane>
+                        <AnchorPane HBox.hgrow="ALWAYS">
                            <children>
-                              <Button fx:id="btnBar" mnemonicParsing="false" onAction="#changeBar" text="Barra de botões para cima" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <Button fx:id="btnBar" mnemonicParsing="false" onAction="#changeBar" text="Barra de botões para cima" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </AnchorPane>
+                        <AnchorPane HBox.hgrow="ALWAYS">
+                           <children>
+                              <Button fx:id="btnRegister" mnemonicParsing="false" onAction="#register" text="Cadastrar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                            <padding>
                               <Insets right="10.0" />
                            </padding>
                         </AnchorPane>
-                        <AnchorPane>
+                        <AnchorPane HBox.hgrow="ALWAYS">
                            <children>
-                              <Button fx:id="btnRegister" mnemonicParsing="false" onAction="#register" text="Cadastrar" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                           </children>
-                           <padding>
-                              <Insets right="10.0" />
-                           </padding>
-                        </AnchorPane>
-                        <AnchorPane>
-                           <children>
-                              <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#update" text="Atualizar" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#update" text="Atualizar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                            <opaqueInsets>
                               <Insets />
@@ -48,20 +51,20 @@
                               <Insets right="10.0" />
                            </HBox.margin>
                         </AnchorPane>
-                        <AnchorPane>
+                        <AnchorPane HBox.hgrow="ALWAYS">
                            <children>
-                              <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#delete" text="Deletar" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#delete" text="Deletar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
                         </AnchorPane>
-                        <AnchorPane>
+                        <AnchorPane HBox.hgrow="ALWAYS">
                            <children>
-                              <Button fx:id="btnExit" mnemonicParsing="false" onAction="#exit" text="Sair" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <Button fx:id="btnExit" mnemonicParsing="false" onAction="#exit" text="Sair" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                            <HBox.margin>
-                              <Insets />
+                              <Insets right="10.0" />
                            </HBox.margin>
                         </AnchorPane>
                      </children>

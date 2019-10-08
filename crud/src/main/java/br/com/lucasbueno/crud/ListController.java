@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,7 +28,8 @@ public class ListController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		listUser.setItems(UserDAO.getUsers());
+		UserDAO dao = new UserDAO();
+		listUser.setItems((ObservableList<User>) dao.getAll());
 	}
 
 	@FXML
@@ -42,8 +44,12 @@ public class ListController implements Initializable {
 
 	@FXML
 	private void changeBar() {
+
+		// pegar a referência pro segundo item do split pane
 		Node bottom = splitPane.getItems().get(1);
+		// remover segundo item
 		splitPane.getItems().remove(1);
+		// colocar o segundo item na posição do primeiro
 		splitPane.getItems().add(0, bottom);
 		barBottom = !barBottom;
 		if (barBottom)
@@ -53,13 +59,21 @@ public class ListController implements Initializable {
 	}
 
 	@FXML
-	private void update() {
+	private void update() throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("update.fxml"));
+		Parent parent = fxmlLoader.load();
+		Scene scene = new Scene(parent);
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		stage.show();
 
+		UpdateController controller = (UpdateController) fxmlLoader.getController();
+		controller.selectedUser(listUser.getSelectionModel().getSelectedItem());
 	}
 
 	@FXML
 	private void delete() {
-		UserDAO.delete(listUser.getSelectionModel().getSelectedItem());
+		new UserDAO().delete(listUser.getSelectionModel().getSelectedItem());
 	}
 
 	@FXML
