@@ -85,6 +85,7 @@ public class User {
 		return true;
 	}
 
+	// método onde definimos o que será escrito quando chamarmos o println(objeto)
 	@Override
 	public String toString() {
 		return "Usuário " + name + ", com " + age + " anos, registrado em " + registerDate + ".";

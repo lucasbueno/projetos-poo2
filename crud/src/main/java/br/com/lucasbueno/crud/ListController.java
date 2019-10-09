@@ -26,10 +26,17 @@ public class ListController implements Initializable {
 
 	private boolean barBottom = true;
 
+	public void updateList() {
+		UserDAO dao = new UserDAO();
+		listUser.setItems(null);
+		listUser.setItems((ObservableList<User>) dao.getAll());
+	}
+
+	// método que será executado sempre que a interface gráfica terminar de ser
+	// carregada
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		UserDAO dao = new UserDAO();
-		listUser.setItems((ObservableList<User>) dao.getAll());
+		updateList();
 	}
 
 	@FXML
@@ -67,8 +74,11 @@ public class ListController implements Initializable {
 		stage.setScene(scene);
 		stage.show();
 
+		// passo para o controlador da tela de update a referência do usuário
+		// selecionado e deste controlador, para que depois ele possa pedir para
+		// atualizar a listView
 		UpdateController controller = (UpdateController) fxmlLoader.getController();
-		controller.selectedUser(listUser.getSelectionModel().getSelectedItem());
+		controller.selectedUser(listUser.getSelectionModel().getSelectedItem(), this);
 	}
 
 	@FXML

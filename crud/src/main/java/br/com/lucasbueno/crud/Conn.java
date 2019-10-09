@@ -18,12 +18,14 @@ public class Conn {
 		return em;
 	}
 
+	// se ainda não abri, abro uma "conexão" com o banco
 	private static EntityManagerFactory getEntityManagerFactory() {
 		if (entityManagerFactory == null)
 			entityManagerFactory = Persistence.createEntityManagerFactory("br.com.lucasbueno.crud");
 		return entityManagerFactory;
 	}
 
+	// fecho todos os entity managers que eu tlvz tenha esquecido de fechar, e fecho a "conexão"
 	public static void closeConn() {
 		if (entityManagerFactory != null)
 			entityManagerFactory.close();

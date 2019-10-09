@@ -16,6 +16,8 @@ public class File {
 
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private List<User> sharedWith;
+	
+	private Folder folder;
 
 	public File() {
 

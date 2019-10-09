@@ -7,13 +7,20 @@ import javax.persistence.EntityManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+// uma implementação da interface com tipo genérico, para User
 public class UserDAO implements InterfaceDAO<User> {
+
+	// observable list para auxiliar na atualização dos elementos no list view
 	private static ObservableList<User> users;
+
+	// na implementação de cada um dos métodos eu tomei o cuidado de manter a lista
+	// da memória atualizada, se ela já tiver sido carregada, já que eu sempre
+	// estou mantendo todos os usuários na tela
 
 	@Override
 	public User get(String id) {
-		if (users != null)
-			for (User user : users)
+		if (users != null) // se já carreguei a lista de todos os usuários na memória
+			for (User user : users) // procuro o usuário específico
 				if (user.getName().contentEquals(id))
 					return user;
 
@@ -43,7 +50,7 @@ public class UserDAO implements InterfaceDAO<User> {
 		entityMng.close();
 
 		// adiciono na lista de usuários que está na memória, se todos os usuários já
-		// foram carregador do banco
+		// foram carregados do banco
 		if (users != null)
 			users.add(user);
 	}
@@ -62,7 +69,7 @@ public class UserDAO implements InterfaceDAO<User> {
 			for (User user : users)
 				if (user.getName().contentEquals(obj.getName()))
 					found = user;
-		if(found != null)
+		if (found != null)
 			users.remove(found);
 	}
 

@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class UpdateController {
@@ -15,6 +14,8 @@ public class UpdateController {
 
 	@FXML
 	private TextField txtAge;
+	
+	private ListController listController;
 
 	@FXML
 	private void update(ActionEvent e) {
@@ -23,11 +24,13 @@ public class UpdateController {
 		Button btn = (Button) e.getSource();
 		Scene scene = btn.getScene();
 		Stage stage = (Stage) scene.getWindow();
+		listController.updateList();
 		stage.close();
 	}
-	
-	public void selectedUser(User user) {
+
+	public void selectedUser(User user, ListController listController) {
 		txtName.setText(user.getName());
 		txtAge.setText(String.valueOf(user.getAge()));
+		this.listController = listController;
 	}
 }
