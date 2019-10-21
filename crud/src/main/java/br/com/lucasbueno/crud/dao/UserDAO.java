@@ -1,22 +1,25 @@
-package br.com.lucasbueno.crud;
+package br.com.lucasbueno.crud.dao;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
 
+import br.com.lucasbueno.crud.entities.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class UserDAO implements InterfaceDAO<User> {
 
 	private static ObservableList<User> users;
+	private String ipServer = "localhost";
+	private int portServer = 1024;
 
 	@Override
 	public User get(String id) {
 		User user = null;
 		try {
-			Socket server = new Socket("localhost", 1024);
+			Socket server = new Socket(ipServer, portServer);
 
 			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
 			out.writeUTF("user;get;" + id);
@@ -43,7 +46,7 @@ public class UserDAO implements InterfaceDAO<User> {
 	public List<User> getAll() {
 		users = FXCollections.observableArrayList();
 		try {
-			Socket server = new Socket("localhost", 1024);
+			Socket server = new Socket(ipServer, portServer);
 
 			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
 			out.writeUTF("user;getAll");
@@ -71,63 +74,31 @@ public class UserDAO implements InterfaceDAO<User> {
 		return users;
 	}
 
-	@Override
-	public void add(User user) {
+	public void change(User user, String operation) {
 		try {
-			Socket server = new Socket("localhost", 1024);
+			Socket server = new Socket(ipServer, portServer);
 			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
-			out.writeUTF("user;add;" + user.getName() + ";" + user.getAge());
+			out.writeUTF("user;" + operation + ";" + user.getName() + ";" + user.getAge());
 			out.flush();
 			out.close();
 			server.close();
-			users.add(user);
 		} catch (Exception e) {
 			System.out.println("Erro: " + e.getMessage());
 		}
+	}
+
+	@Override
+	public void add(User user) {
+		change(user, "add");
 	}
 
 	@Override
 	public void delete(User user) {
-		try {
-			Socket server = new Socket("localhost", 1024);
-			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
-			out.writeUTF("user;delete;" + user.getName() + ";" + user.getAge());
-			out.flush();
-			out.close();
-			server.close();
-		} catch (Exception e) {
-			System.out.println("Erro: " + e.getMessage());
-		}
-
-		User found = null;
-		if (users != null)
-			for (User user2 : users)
-				if (user2.getName().contentEquals(user.getName()))
-					found = user2;
-		if (found != null)
-			users.remove(found);
+		change(user, "delete");
 	}
 
 	@Override
-	public void update(User obj) {
-		try {
-			Socket server = new Socket("localhost", 1024);
-			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
-			out.writeUTF("user;update;" + obj.getName() + ";" + obj.getAge());
-			out.flush();
-			out.close();
-			server.close();
-		} catch (Exception e) {
-			System.out.println("Erro: " + e.getMessage());
-		}
-
-		if (users != null) {
-			for (User user : users) {
-				if (user.getName().contentEquals(obj.getName())) {
-					user.setAge(obj.getAge());
-					user.setRegisterDate(obj.getRegisterDate());
-				}
-			}
-		}
+	public void update(User user) {
+		change(user, "update");
 	}
 }

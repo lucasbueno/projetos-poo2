@@ -1,4 +1,4 @@
-package br.com.lucasbueno.crud;
+package br.com.lucasbueno.crud.entities;
 
 
 import java.time.LocalDateTime;

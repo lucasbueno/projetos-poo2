@@ -1,4 +1,4 @@
-package br.com.lucasbueno.db;
+package br.com.lucasbueno.dao;
 
 import java.util.List;
 

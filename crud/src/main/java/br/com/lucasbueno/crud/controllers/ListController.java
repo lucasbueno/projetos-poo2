@@ -1,9 +1,12 @@
-package br.com.lucasbueno.crud;
+package br.com.lucasbueno.crud.controllers;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import br.com.lucasbueno.crud.App;
+import br.com.lucasbueno.crud.dao.UserDAO;
+import br.com.lucasbueno.crud.entities.User;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -38,6 +41,9 @@ public class ListController implements Initializable {
 		Stage stage = new Stage();
 		stage.setScene(scene);
 		stage.show();
+
+		RegisterController controller = (RegisterController) fxmlLoader.getController();
+		controller.setListController(this);
 	}
 
 	@FXML
@@ -59,6 +65,7 @@ public class ListController implements Initializable {
 	@FXML
 	private void delete() {
 		new UserDAO().delete(listUser.getSelectionModel().getSelectedItem());
+		updateList();
 	}
 
 	@FXML

@@ -12,8 +12,8 @@ import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.List;
 
-import br.com.lucasbueno.db.Conn;
-import br.com.lucasbueno.db.UserDAO;
+import br.com.lucasbueno.dao.Conn;
+import br.com.lucasbueno.dao.UserDAO;
 import br.com.lucasbueno.entities.User;
 import br.com.lucasbueno.exceptions.CommException;
 import br.com.lucasbueno.exceptions.NetDeviceException;
