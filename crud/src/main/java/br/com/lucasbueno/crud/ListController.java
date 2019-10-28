@@ -1,6 +1,9 @@
 package br.com.lucasbueno.crud;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -12,6 +15,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
 import javafx.stage.Stage;
@@ -84,6 +89,35 @@ public class ListController implements Initializable {
 	@FXML
 	private void delete() {
 		new UserDAO().delete(listUser.getSelectionModel().getSelectedItem());
+	}
+
+	@FXML
+	private void sendMessage() {
+		try {
+			Socket server = new Socket("localhost", 1024);
+
+			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
+			out.writeUTF("oi");
+			out.flush();
+
+			ObjectInputStream in = new ObjectInputStream(server.getInputStream());
+			String msg = in.readUTF();
+			showMsg(msg);
+
+			in.close();
+			out.close();
+			server.close();
+		} catch (Exception e) {
+			System.out.println("Erro: " + e.getMessage());
+		}
+	}
+
+	private void showMsg(String msg) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Mensagem recebido");
+		alert.setHeaderText("Olha só o que o servidor enviou...");
+		alert.setContentText(msg);
+		alert.showAndWait();
 	}
 
 	@FXML
