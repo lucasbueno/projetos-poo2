@@ -18,8 +18,8 @@ public class RegisterController {
 
 	@FXML
 	private void register(ActionEvent e) {
-		User user = new User(txtName.getText(), Integer.valueOf(txtAge.getText()));
-		new UserDAO().add(user);
+//		User user = new User(txtName.getText(), Integer.valueOf(txtAge.getText()));
+//		new UserDAO().add(user);
 		Button btn = (Button) e.getSource();
 		Scene scene = btn.getScene();
 		Stage stage = (Stage) scene.getWindow();

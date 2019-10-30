@@ -19,18 +19,10 @@ public class App extends Application {
 	public void start(Stage stage) throws IOException {
 
 		// carrega o fxml da primeira tela e o mostra
-		Conn.getEntityManager().close();
 		FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("list.fxml"));
 		Parent parent = fxmlLoader.load();
 		scene = new Scene(parent);
 		stage.setScene(scene);
 		stage.show();
-	}
-
-	// o método stop() sempre é chamado antes de encerrar o programa
-	@Override
-	public void stop() throws Exception {
-		Conn.closeConn();
-		super.stop();
 	}
 }

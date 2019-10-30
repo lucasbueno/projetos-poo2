@@ -12,8 +12,10 @@ import java.util.Enumeration;
 public class Main {
 
 	public static void main(String[] args) {
+
 		ServerSocket server = null;
 		try {
+			Conn.getEntityManager().close();
 			printServerInfo();
 			server = openSocket();
 			System.out.println("O servidor está aberto na porta " + server.getLocalPort());
@@ -33,11 +35,13 @@ public class Main {
 				} catch (IOException e) {
 				}
 			}
+			Conn.closeConn();
 		}
 	}
 
 	private static void listen(ServerSocket server) throws CommException {
 		try {
+			// método para falar que o servidor deve aceitar conexões
 			Socket client = server.accept();
 			process(client);
 			client.close();
@@ -48,17 +52,28 @@ public class Main {
 
 	private static void process(Socket client) throws IOException {
 		System.out.println("Cliente conectado: " + client.getInetAddress().getHostAddress());
-		
+
 		ObjectInputStream in = new ObjectInputStream(client.getInputStream());
 		String msg = in.readUTF();
 		System.out.println("Cliente enviou: " + msg);
 
 		ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
-		out.writeUTF("tchau");
+
+		String recebido[] = msg.split(";");
+		if (recebido[0].contentEquals("user")) {
+			if (recebido[1].contentEquals("get")) {
+				User user = new UserDAO().get(recebido[2]);
+				if (user == null) {
+					out.writeUTF("404");
+				} else {
+					out.writeUTF(user.getName() + ";" + user.getAge() + ";" + user.getRegisterDate());
+				}
+			}
+		}
 		out.flush();
 		out.close();
 		in.close();
-	}	
+	}
 
 	private static ServerSocket openSocket() throws PortException {
 		int port = 1024;
@@ -90,10 +105,8 @@ public class Main {
 			}
 			System.out.println("-----------------------------------");
 		} catch (SocketException e1) {
-			System.err.println("Não tenho nenhuma interface de rede :(");
 			throw new NetDeviceException();
 		} catch (UnknownHostException e) {
-			System.err.println("Não tenho um hostname :(");
 			throw new NetDeviceException();
 		}
 	}

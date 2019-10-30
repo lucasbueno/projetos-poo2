@@ -1,4 +1,3 @@
-package br.com.lucasbueno.crud;
 
 
 import java.util.List;

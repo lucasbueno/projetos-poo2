@@ -1,9 +1,6 @@
 package br.com.lucasbueno.crud;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -12,13 +9,13 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class ListController implements Initializable {
@@ -28,6 +25,9 @@ public class ListController implements Initializable {
 
 	@FXML
 	private ListView<User> listUser;
+
+	@FXML
+	private TextField txtUsername;
 
 	private boolean barBottom = true;
 
@@ -55,22 +55,6 @@ public class ListController implements Initializable {
 	}
 
 	@FXML
-	private void changeBar() {
-
-		// pegar a referência pro segundo item do split pane
-		Node bottom = splitPane.getItems().get(1);
-		// remover segundo item
-		splitPane.getItems().remove(1);
-		// colocar o segundo item na posição do primeiro
-		splitPane.getItems().add(0, bottom);
-		barBottom = !barBottom;
-		if (barBottom)
-			splitPane.setDividerPositions(0.8);
-		else
-			splitPane.setDividerPositions(0.2);
-	}
-
-	@FXML
 	private void update() throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("update.fxml"));
 		Parent parent = fxmlLoader.load();
@@ -93,22 +77,12 @@ public class ListController implements Initializable {
 
 	@FXML
 	private void sendMessage() {
-		try {
-			Socket server = new Socket("localhost", 1024);
-
-			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
-			out.writeUTF("oi");
-			out.flush();
-
-			ObjectInputStream in = new ObjectInputStream(server.getInputStream());
-			String msg = in.readUTF();
-			showMsg(msg);
-
-			in.close();
-			out.close();
-			server.close();
-		} catch (Exception e) {
-			System.out.println("Erro: " + e.getMessage());
+		UserDAO dao = new UserDAO();
+		User user = dao.get(txtUsername.getText());
+		if (user == null) {
+			showMsg("Usuário não encontrado");
+		} else {
+			showMsg("O servidor encontrou " + user.getName() + ", com " + user.getAge() + " anos.");
 		}
 	}
 

@@ -19,8 +19,8 @@ public class UpdateController {
 
 	@FXML
 	private void update(ActionEvent e) {
-		User user = new User(txtName.getText(), Integer.valueOf(txtAge.getText()));
-		new UserDAO().update(user);
+//		User user = new User(txtName.getText(), Integer.valueOf(txtAge.getText()));
+//		new UserDAO().update(user);
 		Button btn = (Button) e.getSource();
 		Scene scene = btn.getScene();
 		Stage stage = (Stage) scene.getWindow();

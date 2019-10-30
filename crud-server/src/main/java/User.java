@@ -1,11 +1,15 @@
-package br.com.lucasbueno.crud;
 
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class User {
 
+	@Id
 	private String name;
 
 	private int age;
@@ -15,11 +19,12 @@ public class User {
 	public User() {
 	}
 
-	public User(String name, int age, String registerDate) {
+	public User(String name, int age) {
 		super();
 		this.name = name;
 		this.age = age;
-		this.registerDate = registerDate;
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		this.registerDate = dtf.format(LocalDateTime.now());
 	}
 
 	public String getName() {
