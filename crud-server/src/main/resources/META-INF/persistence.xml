@@ -8,8 +8,6 @@
             Persistence unit for the ORM class.
         </description>
         
-		<class>br.com.lucasbueno.crud.User</class>
-
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC" />
 			<property name="dialect" value="org.hibernate.dialect.SQLiteDialect" />
