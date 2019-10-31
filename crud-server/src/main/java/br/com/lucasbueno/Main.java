@@ -10,7 +10,11 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
+import java.util.List;
 
+import br.com.lucasbueno.db.Conn;
+import br.com.lucasbueno.db.UserDAO;
+import br.com.lucasbueno.entities.User;
 import br.com.lucasbueno.exceptions.CommException;
 import br.com.lucasbueno.exceptions.NetDeviceException;
 import br.com.lucasbueno.exceptions.PortException;
@@ -67,18 +71,55 @@ public class Main {
 
 		String recebido[] = msg.split(";");
 		if (recebido[0].contentEquals("user")) {
-			if (recebido[1].contentEquals("get")) {
-				User user = new UserDAO().get(recebido[2]);
-				if (user == null) {
-					out.writeUTF("404");
-				} else {
-					out.writeUTF(user.getName() + ";" + user.getAge() + ";" + user.getRegisterDate());
-				}
-			}
+			if (recebido[1].contentEquals("get"))
+				getUser(out, recebido);
+			else if (recebido[1].contentEquals("getAll"))
+				getAllUser(out);
+			else if (recebido[1].contentEquals("add"))
+				addUser(out, recebido);
+			else if (recebido[1].contentEquals("delete"))
+				deleteUser(out, recebido);
+			else if (recebido[1].contentEquals("update"))
+				updateUser(out, recebido);
 		}
 		out.flush();
 		out.close();
 		in.close();
+	}
+
+	private static void updateUser(ObjectOutputStream out, String[] recebido) throws IOException {
+		User user = new User(recebido[2], Integer.valueOf(recebido[3]));
+		new UserDAO().update(user);
+	}
+
+	private static void deleteUser(ObjectOutputStream out, String[] recebido) throws IOException {
+		User user = new User(recebido[2], Integer.valueOf(recebido[3]));
+		new UserDAO().delete(user);
+	}
+
+	private static void addUser(ObjectOutputStream out, String[] recebido) throws IOException {
+		User user = new User(recebido[2], Integer.valueOf(recebido[3]));
+		new UserDAO().add(user);
+	}
+
+	private static void getAllUser(ObjectOutputStream out) throws IOException {
+		String msg = "";
+		List<User> users = new UserDAO().getAll();
+		if (users == null)
+			out.writeUTF("404");
+		else
+			for (User user : users)
+				msg = msg.concat(user.getName() + ";" + user.getAge() + ";" + user.getRegisterDate() + ";");
+		out.writeUTF(msg);
+	}
+
+	private static void getUser(ObjectOutputStream out, String[] recebido) throws IOException {
+		User user = new UserDAO().get(recebido[2]);
+		if (user == null) {
+			out.writeUTF("404");
+		} else {
+			out.writeUTF(user.getName() + ";" + user.getAge() + ";" + user.getRegisterDate());
+		}
 	}
 
 	private static ServerSocket openSocket() throws PortException {

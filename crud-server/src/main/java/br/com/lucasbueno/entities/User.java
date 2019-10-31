@@ -1,4 +1,4 @@
-package br.com.lucasbueno;
+package br.com.lucasbueno.entities;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

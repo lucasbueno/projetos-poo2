@@ -11,37 +11,23 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class ListController implements Initializable {
 
 	@FXML
-	private SplitPane splitPane;
-
-	@FXML
 	private ListView<User> listUser;
 
-	@FXML
-	private TextField txtUsername;
-
-	private boolean barBottom = true;
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		updateList();
+	}
 
 	public void updateList() {
 		UserDAO dao = new UserDAO();
 		listUser.setItems(null);
 		listUser.setItems((ObservableList<User>) dao.getAll());
-	}
-
-	// método que será executado sempre que a interface gráfica terminar de ser
-	// carregada
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		updateList();
 	}
 
 	@FXML
@@ -73,25 +59,6 @@ public class ListController implements Initializable {
 	@FXML
 	private void delete() {
 		new UserDAO().delete(listUser.getSelectionModel().getSelectedItem());
-	}
-
-	@FXML
-	private void sendMessage() {
-		UserDAO dao = new UserDAO();
-		User user = dao.get(txtUsername.getText());
-		if (user == null) {
-			showMsg("Usuário não encontrado");
-		} else {
-			showMsg("O servidor encontrou " + user.getName() + ", com " + user.getAge() + " anos.");
-		}
-	}
-
-	private void showMsg(String msg) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Mensagem recebido");
-		alert.setHeaderText("Olha só o que o servidor enviou...");
-		alert.setContentText(msg);
-		alert.showAndWait();
 	}
 
 	@FXML

@@ -1,4 +1,4 @@
-package br.com.lucasbueno;
+package br.com.lucasbueno.db;
 
 import java.util.List;
 
