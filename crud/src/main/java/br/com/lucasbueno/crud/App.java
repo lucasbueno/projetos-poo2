@@ -17,9 +17,7 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage stage) throws IOException {
-
-		// carrega o fxml da primeira tela e o mostra
-		FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("list.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("loading.fxml"));
 		Parent parent = fxmlLoader.load();
 		scene = new Scene(parent);
 		stage.setScene(scene);

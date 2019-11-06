@@ -1,8 +1,10 @@
 package br.com.lucasbueno.crud.dao;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import br.com.lucasbueno.crud.entities.User;
@@ -43,34 +45,31 @@ public class UserDAO implements InterfaceDAO<User> {
 	}
 
 	@Override
-	public List<User> getAll() {
+	public List<User> getAll() throws UnknownHostException, IOException {
 		users = FXCollections.observableArrayList();
-		try {
-			Socket server = new Socket(ipServer, portServer);
+		Socket server = new Socket(ipServer, portServer);
 
-			ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
-			out.writeUTF("user;getAll");
-			out.flush();
+		ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
+		out.writeUTF("user;getAll");
+		out.flush();
 
-			ObjectInputStream in = new ObjectInputStream(server.getInputStream());
-			String msg = in.readUTF();
+		ObjectInputStream in = new ObjectInputStream(server.getInputStream());
+		String msg = in.readUTF();
 
-			if (!msg.contains("404")) {
-				String[] splitResult = msg.split(";");
-				int userIndex = 0;
-				while (userIndex < splitResult.length) {
-					User user = new User(splitResult[userIndex], Integer.valueOf(splitResult[userIndex + 1]),
-							splitResult[userIndex + 2]);
-					users.add(user);
-					userIndex += 3;
-				}
+		if (!msg.contains("404")) {
+			String[] splitResult = msg.split(";");
+			int userIndex = 0;
+			while (userIndex < splitResult.length) {
+				User user = new User(splitResult[userIndex], Integer.valueOf(splitResult[userIndex + 1]),
+						splitResult[userIndex + 2]);
+				users.add(user);
+				userIndex += 3;
 			}
-			in.close();
-			out.close();
-			server.close();
-		} catch (Exception e) {
-			System.out.println("Erro: " + e.getMessage());
 		}
+		in.close();
+		out.close();
+		server.close();
+
 		return users;
 	}
 

@@ -21,16 +21,23 @@ public class ListController implements Initializable {
 
 	@FXML
 	private ListView<User> listUser;
+	private Thread updateDaemon;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		updateList();
+		// updateList();
+		updateDaemon = new Thread(new UpdateDaemon(listUser));
+		updateDaemon.start();
 	}
 
 	public void updateList() {
 		UserDAO dao = new UserDAO();
 		listUser.setItems(null);
-		listUser.setItems((ObservableList<User>) dao.getAll());
+		try {
+			listUser.setItems((ObservableList<User>) dao.getAll());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -70,6 +77,7 @@ public class ListController implements Initializable {
 
 	@FXML
 	private void exit() {
+		updateDaemon.stop();
 		Platform.exit();
 	}
 }
