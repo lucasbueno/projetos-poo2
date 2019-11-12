@@ -56,7 +56,7 @@ public class UserDAO implements InterfaceDAO<User> {
 		ObjectInputStream in = new ObjectInputStream(server.getInputStream());
 		String msg = in.readUTF();
 
-		if (!msg.contains("404")) {
+		if (!msg.contains("404") && msg.length() > 0) {
 			String[] splitResult = msg.split(";");
 			int userIndex = 0;
 			while (userIndex < splitResult.length) {
